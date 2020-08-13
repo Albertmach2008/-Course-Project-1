@@ -1,0 +1,21 @@
+library("dplyr")
+library("tidyverse")
+
+
+setwd("C:/Users/EQUIPO/Downloads/Deberes_cursos_R")
+read.table("household_power_consumption.txt",header=TRUE, sep=";")->data
+
+data <- as.Date(data$Date, "%d/%m/%Y")
+
+
+data <- subset(data,Date >= as.Date("2007-2-1") & Date <= as.Date("2007-2-2"))
+
+data <- data[complete.cases(data),]
+
+time <- paste(data$Date, data$Time)
+
+data <- setNames(time, "Time")
+data <- data[ ,!(names(data) %in% c("Date","Time"))]
+time <- cbind(time, data)
+
+time <- as.POSIXcdata(time)
